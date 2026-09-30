@@ -1,5 +1,8 @@
 # Domheap
 
+<img width="904" height="923" alt="image" src="https://github.com/user-attachments/assets/c6a27fd3-b064-4005-95f3-437c16ddd3e9" />
+
+
 An Urbit publishing app with subscriptions and a feed of publications from other ships.
 
 - Publishes posts from a selected private `%notes` notebook.
