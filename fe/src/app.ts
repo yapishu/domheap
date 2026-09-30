@@ -4,7 +4,8 @@ import "@fontsource/source-serif-4/600.css";
 import "@fontsource/public-sans/400.css";
 import "@fontsource/public-sans/600.css";
 import "./style.css";
-import { api, base, updates } from "./api";
+import { api, base } from "./api";
+import { updates } from "./updates";
 import {
   el,
   link,
@@ -36,6 +37,7 @@ let generation = 0;
 let refreshTimer = 0;
 let lastRenderKey = "";
 let acceptedLocation = location.href;
+let foregroundPending = false;
 const reader = (body: string) => {
   const r = prose(body);
   dispose.push(r.dispose);
@@ -107,13 +109,21 @@ function shell() {
       "footer",
       { class: "site-footer" },
       el("span", {}, `${publication.host} · Published with Domheap`),
-      el("span", {}, "A place of your own."),
     ),
   );
   return { main, frame };
 }
 async function render(background = false) {
+  if (background && foregroundPending) return;
   const turn = ++generation;
+  if (!background) {
+    foregroundPending = true;
+    const main = app.querySelector("main") ?? app;
+    main.setAttribute("aria-busy", "true");
+    main.replaceChildren(
+      el("p", { class: "status", role: "status" }, "Loading…"),
+    );
+  }
   const previousDispose = dispose;
   dispose = [];
   const nextDispose = dispose;
@@ -239,7 +249,7 @@ async function render(background = false) {
           : el(
               "div",
               { class: "empty" },
-              el("h2", {}, "The first page is still ahead."),
+              el("h2", {}, "No posts yet"),
               el(
                 "p",
                 {},
@@ -297,6 +307,12 @@ async function render(background = false) {
         link("Back to publication", "publication"),
       ),
     );
+  } finally {
+    if (turn === generation) {
+      foregroundPending = false;
+      app.removeAttribute("aria-busy");
+      app.querySelector("main")?.removeAttribute("aria-busy");
+    }
   }
 }
 void render().then(() => {

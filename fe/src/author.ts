@@ -116,13 +116,7 @@ export function subscribers(a: Author, reload: () => void) {
   });
   const list = el("div", { class: "member-list" });
   if (!a.members.length)
-    list.append(
-      el(
-        "p",
-        { class: "empty" },
-        "No subscribers yet. Invite a reader with a free grant.",
-      ),
-    );
+    list.append(el("p", { class: "empty" }, "No subscribers yet."));
   for (const m of a.members) {
     const row = el(
       "div",

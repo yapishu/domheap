@@ -121,19 +121,19 @@ export function showPost(
       el(
         "aside",
         { class: "paywall" },
-        el("h2", {}, "Keep reading with a subscription."),
-        el("p", {}, `Support ${p.title} and read the rest of this post.`),
+        el("h2", {}, "Subscribers only"),
+        el("p", {}, "Subscribe to read the rest of this post."),
         destination
           ? el("a", { href: destination, class: "button primary" }, "Subscribe")
           : el("p", {}, `Ask ${p.host} to grant your ship access.`),
-        el(
-          "p",
-          { class: "muted" },
-          host
-            ? "Your subscription follows your ship."
-            : "Already a subscriber? ",
-          host ? null : el("a", { href: login() }, "Sign in with your ship"),
-        ),
+        host
+          ? null
+          : el(
+              "p",
+              { class: "muted" },
+              "Already a subscriber? ",
+              el("a", { href: login() }, "Sign in with your ship"),
+            ),
       ),
     );
   }

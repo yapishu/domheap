@@ -16,11 +16,11 @@ export function subscribeScreen(
     (session.subscribed || session.expiresAt !== null ? session.viewer : "");
   main.append(
     link(publication.title, "publication", "back-link"),
-    el("h1", {}, "A subscription, tied to your ship."),
+    el("h1", {}, "Subscribe"),
     el(
       "p",
       { class: "intro" },
-      "Read here or in your own Domheap reading room. Your ship is your identity.",
+      "Sign in with your ship to subscribe and read subscriber posts.",
     ),
   );
   if (session.subscribed) {

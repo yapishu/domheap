@@ -61,7 +61,7 @@ export async function readingRoom(
       el(
         "div",
         { class: "empty" },
-        el("h2", {}, "Make room for good writing."),
+        el("h2", {}, "No publications followed"),
         el(
           "p",
           {},

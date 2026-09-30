@@ -207,7 +207,7 @@ Post rows pair a date and optional subscriber condition with a serif title, mute
 
 Pretext lays out visible prose lines after the bundled fonts load and recalculates when available width changes. Inline emphasis and links retain their semantics. Images stay within the reading column; code and tables scroll as needed. Blockquotes use a thin left rule and muted italic text.
 
-The subscription boundary uses a fine top rule, serif invitation, supporting text, and primary action. When reduced motion is not requested, it reveals through a clipped edge over (0.5s) with `cubic-bezier(0.16, 1, 0.3, 1)`. Unchanged background updates preserve the visible reading surface.
+The subscription boundary uses a fine top rule, serif access heading, supporting text, and primary action. When reduced motion is not requested, it reveals through a clipped edge over (0.5s) with `cubic-bezier(0.16, 1, 0.3, 1)`. Unchanged background updates preserve the visible reading surface. Foreground navigation shows a loading message; a timed-out request shows an error and retry action. Interface copy states the current condition and available action without slogans.
 
 ### Subscription terms and prices
 

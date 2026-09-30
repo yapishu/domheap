@@ -41,6 +41,8 @@ The application installs as an Urbit desk. Zig assembles pinned desk dependencie
 
 Clean, restrained, literate, and suitable for serious writing. The publication's own identity leads the public site.
 
+Interface copy is direct and functional. Empty states name what is missing and the action available; footers and subscription prompts contain no slogans or motivational language.
+
 ## Evidence on Hand
 
 The local Tlon `%notes`, Urbit Eyre eauth, Boox Pretext/fileserver, Matrix fileserver, and Urbit Agent Harness repositories supply implementation references. No actual publication copy or artwork is supplied.

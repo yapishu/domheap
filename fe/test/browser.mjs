@@ -55,7 +55,7 @@ async function surface(
       .last()
       .click();
     await page
-      .getByRole("heading", { name: "A subscription, tied to your ship." })
+      .getByRole("heading", { name: "Subscribe", exact: true })
       .waitFor();
     await page.goBack();
     await page.locator(".paywall").waitFor();
