@@ -25,7 +25,9 @@ export async function request<T>(
     });
     const result = await response.json().catch((error: unknown) => {
       if (controller.signal.aborted) throw error;
-      throw new Error(`The ship returned an invalid response (${response.status}).`);
+      throw new Error(
+        `The ship returned an invalid response (${response.status}).`,
+      );
     });
     if (!response.ok)
       throw new Error(result.error || `Request failed (${response.status}).`);
