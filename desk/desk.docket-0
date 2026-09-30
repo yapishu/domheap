@@ -1,0 +1,8 @@
+:~  title+'Domheap'
+    info+'A publication on your ship. A reading room for your subscriptions.'
+    color+0x30.4b40
+    version+[0 1 0]
+    website+''
+    license+''
+    site+/apps/domheap
+==
