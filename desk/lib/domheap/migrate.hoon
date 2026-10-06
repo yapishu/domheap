@@ -37,12 +37,23 @@
 ++  quote
   |=  old=quote-0
   ^-  quote:d
-  =/  period=period:d
+  =/  =period:d
     ?:  =(~d1 duration.old)  %day
     ?:  =(~d7 duration.old)  %week
     ?:  =(~d365 duration.old)  %year
     %month
-  [who.old expires.old duration.old period (plan plan.old) resource.old nonce.old phase.old payment.old result.old request.old]
+  :*  who.old
+      expires.old
+      duration.old
+      period
+      (plan plan.old)
+      resource.old
+      nonce.old
+      phase.old
+      payment.old
+      result.old
+      request.old
+  ==
 ++  load
   |=  saved=vase
   ^-  state:d
@@ -51,6 +62,14 @@
     !<(state:d saved)
       %0
     =/  old  !<(state-0 saved)
-    [%1 publication.old members.old following.old (bind plan.old plan) (~(run by quotes.old) quote) redeemed.old pending.old]
+    :*  %1
+        publication.old
+        members.old
+        following.old
+        (bind plan.old plan)
+        (~(run by quotes.old) quote)
+        redeemed.old
+        pending.old
+    ==
   ==
 --

@@ -11,7 +11,14 @@
 =/  q=quote-0:m
   [~nec ~2026.10.1 ~d30 plan 'https://publication.test/subscribe/id' 'nonce' %settling ~ ~ ~]
 =.  old
-  old(title.publication 'A kept publication', members (~(put by members.old) ~nec [~ %gift]), plan `plan, quotes (~(put by quotes.old) 0v1 q), redeemed (~(put in redeemed.old) ['network' 'transaction']), pending (~(put by pending.old) 0v2 [~bud %request ~2026.10.1]))
+  %_  old
+    title.publication  'A kept publication'
+    members  (~(put by members.old) ~nec [~ %gift])
+    plan  `plan
+    quotes  (~(put by quotes.old) 0v1 q)
+    redeemed  (~(put in redeemed.old) ['network' 'transaction'])
+    pending  (~(put by pending.old) 0v2 [~bud %request ~2026.10.1])
+  ==
 =/  current  (load:m !>(old))
 ?>  =(publication.old publication.current)
 ?>  =(members.old members.current)

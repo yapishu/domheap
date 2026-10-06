@@ -43,7 +43,9 @@
   =/  site=path
     ?~  ext.line  `path`site.line
     ?~  site.line  ~
-    (snoc (scag (dec (lent site.line)) `path`site.line) (cat 3 (rear site.line) (cat 3 '.' u.ext.line)))
+    %+  snoc
+      (scag (dec (lent site.line)) `path`site.line)
+    (cat 3 (rear site.line) (cat 3 '.' u.ext.line))
   =/  route=path  (slag 3 site)
   ?.  =(/apps/domheap/api (scag 3 `path`site.line))
     [(error:web rid 404 'Unknown route.') state]
@@ -54,7 +56,8 @@
       ?.  =(src.bowl our.bowl)  [(error:web rid 403 'Only the author can open this page.') state]
       [(response:web rid 200 author:(view bowl state) ~) state]
     ?:  ?=([%remote host=@ *] route)
-      ?.  =(src.bowl our.bowl)  [(error:web rid 403 'Log in to your own ship to use the reading room.') state]
+      ?.  =(src.bowl our.bowl)
+        [(error:web rid 403 'Log in to your own ship to use the reading room.') state]
       =/  host  (slav %p i.t.route)
       (fetch:(peer bowl state) host t.t.route rid)
     =/  result  (read:(view bowl state) route src.bowl)
@@ -67,7 +70,10 @@
     [(error:web rid 403 'Reload Domheap before making changes.') state]
   ?:  =(/quote route)
     =/  data  (body:web request.req)
-    (issue:(pay bowl state) rid (slav %p (text:xj (field:xj data 'ship'))) (period:pricing (text:xj (field:xj data 'period'))))
+    %^  issue:(pay bowl state)
+      rid
+      (slav %p (text:xj (field:xj data 'ship')))
+    (period:pricing (text:xj (field:xj data 'period')))
   ?:  ?=([%subscribe @ ~] route)
     %:  submit:(pay bowl state)
       rid
@@ -102,14 +108,14 @@
   ?+  wire  [~ state]
       [%notebook ~]
     ?:  ?=(%fact -.sign)  [(both:e our.bowl) state]
-    ?:  ?|(?=(%kick -.sign) ?=([%watch-ack ^] sign))
+    ?:  |(?=(%kick -.sign) ?=([%watch-ack ^] sign))
       [~[[%pass /retry-notebook %arvo %b %wait (add now.bowl ~s30)]] state]
     [~ state]
       [%follow who=@ ~]
     =/  who  (slav %p i.t.wire)
     ?.  (~(has in following.state) who)  [~ state]
     ?:  ?=(%fact -.sign)  [[(changed:e who)]~ state]
-    ?:  ?|(?=(%kick -.sign) ?=([%watch-ack ^] sign))
+    ?:  |(?=(%kick -.sign) ?=([%watch-ack ^] sign))
       [~[[%pass /retry-follow/(scot %p who) %arvo %b %wait (add now.bowl ~s30)]] state]
     [~ state]
       [%read id=@ ~]
@@ -140,7 +146,9 @@
     ?.  (~(has in following.state) who)  [~ state]
     [~[[%pass /follow/(scot %p who) %agent [who %domheap] %watch /v1/changes]] state]
       [%read-timeout id=@ ~]
-    (fail:(peer bowl state) (slav %uv i.t.wire) 'The publication did not respond within 30 seconds.')
+    %+  fail:(peer bowl state)
+      (slav %uv i.t.wire)
+    'The publication did not respond within 30 seconds.'
       [%maintenance ~]
     ::  Browser readers recheck on this tick, including when a grant expires.
     :_  sweep:(pay bowl state)

@@ -17,7 +17,7 @@
 ::
 ::  +web-root: url under which your files will be served
 ::
-++  web-root   ^-  (list @t)  web-root:config
+++  web-root  ^-  (list @t)  web-root:config
 ::
 ::  optional config parameters, with default:
 ::
@@ -92,37 +92,37 @@
   %-  zing
   ^-  (list (list card))
   :~  ::  if the file root changed, set the new root up for tombstoning.
-      ::
-      ?:  =(foot.old file-root)  ~
-      [(set-norm [our q.byk]:bowl file-root |)]~
     ::
-      ::  always await next change on our file root
-      ::
-      :-  (read-next [our q.byk now]:bowl file-root)
-      ::  always trigger clay tombstoning, for both old and new file roots.
-      ::
-      :-  [%pass /clay/tomb %arvo %c %tomb %pick ~]
-      ::  always clear old cache entries.
-      ::
-      (turn ~(tap in cash.old) (curr store ~))
+    ?:  =(foot.old file-root)  ~
+    [(set-norm [our q.byk]:bowl file-root |)]~
+  ::
+    ::  always await next change on our file root
     ::
-      ::  if the file root changed, remove tombstoning from the old root.
-      ::
-      ?:  =(foot.old file-root)  ~
-      [(set-norm [our q.byk]:bowl foot.old &)]~
+    :-  (read-next [our q.byk now]:bowl file-root)
+    ::  always trigger clay tombstoning, for both old and new file roots.
     ::
-      ::  Rebind after loading so the static route always belongs to this agent.
-      ::
-      ^-  (list card)
-      ?:  =(woot.old web-root)
-        ::  same root: unconditional rebind
-        [[%pass /eyre/connect %arvo %e %connect [~ web-root] dap.bowl] ~]
-      ::  web-root changed: disconnect the old, bind the new
-      ::NOTE  re-bind first to avoid duct shenanigans.
-      :~  [%pass /eyre/connect %arvo %e %connect [~ woot.old] dap.bowl]
-          [%pass /eyre/connect %arvo %e %disconnect [~ woot.old]]
-          [%pass /eyre/connect %arvo %e %connect [~ web-root] dap.bowl]
-      ==
+    :-  [%pass /clay/tomb %arvo %c %tomb %pick ~]
+    ::  always clear old cache entries.
+    ::
+    (turn ~(tap in cash.old) (curr store ~))
+  ::
+    ::  if the file root changed, remove tombstoning from the old root.
+    ::
+    ?:  =(foot.old file-root)  ~
+    [(set-norm [our q.byk]:bowl foot.old &)]~
+  ::
+    ::  Rebind after loading so the static route always belongs to this agent.
+    ::
+    ^-  (list card)
+    ?:  =(woot.old web-root)
+      ::  same root: unconditional rebind
+      [[%pass /eyre/connect %arvo %e %connect [~ web-root] dap.bowl] ~]
+    ::  web-root changed: disconnect the old, bind the new
+    ::NOTE  re-bind first to avoid duct shenanigans.
+    :~  [%pass /eyre/connect %arvo %e %connect [~ woot.old] dap.bowl]
+        [%pass /eyre/connect %arvo %e %disconnect [~ woot.old]]
+        [%pass /eyre/connect %arvo %e %connect [~ web-root] dap.bowl]
+    ==
   ==
 ::
 ++  on-poke
@@ -147,8 +147,8 @@
   ?.  ?=(%'GET' method.request)
     [| [405 ~] `(as-octs:mimes:html 'read-only resource')]
   =+  ^-  [[ext=(unit @ta) site=(list @t)] args=(list [key=@t value=@t])]
-    =-  (fall - [[~ ~] ~])
-    (rush url.request ;~(plug apat:de-purl:html yque:de-purl:html))
+      =-  (fall - [[~ ~] ~])
+      (rush url.request ;~(plug apat:de-purl:html yque:de-purl:html))
   ?.  =(woot (scag (lent woot) site))
     [| [500 ~] `(as-octs:mimes:html 'bad route')]
   ::  all of the below responses get put into cache on first-request,
@@ -192,9 +192,10 @@
   =/  cache-val=@t
     ?+  u.ext  'max-age=3600'
       %css  'max-age=3600'
-      %js   ?:  =('sw' (rear (slag (lent woot) site)))
-              'no-cache'
-            'max-age=3600'
+        %js
+      ?:  =('sw' (rear (slag (lent woot) site)))
+        'no-cache'
+      'max-age=3600'
       %svg  'max-age=86400'
       %png  'max-age=86400'
       %jpg  'max-age=86400'
@@ -243,7 +244,7 @@
 ::
 ++  on-leave  |=(* [~ this])
 ++  on-agent  |=(* [~ this])
-++  on-peek   |=(* ~)
+++  on-peek  |=(* ~)
 ::
 ++  on-fail
   |=  [=term =tang]

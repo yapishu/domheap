@@ -12,7 +12,7 @@
   |=  [p=note:n can-read=? summary=?]
   ^-  json
   =/  divided  (split:c body-md.p)
-  =/  view  (readable:c body-md.p ?&(can-read !summary))
+  =/  view  (readable:c body-md.p &(can-read !summary))
   %-  pairs:enjs:format
   :~  ['id' s+(scot %ud id.p)]
       ['title' s+title.p]

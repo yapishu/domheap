@@ -5,8 +5,8 @@
 ^-  agent:gall
 |_  =bowl:gall
 +*  this  .
-    def   ~(. (default-agent this %|) bowl)
-    app   ~(. core [bowl state])
+    def  ~(. (default-agent this %|) bowl)
+    app  ~(. core [bowl state])
 ++  on-init
   =^  cards  state  init:app
   [[[%pass /maintenance %arvo %b %wait (add now.bowl ~m1)] cards] this]

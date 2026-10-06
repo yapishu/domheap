@@ -20,8 +20,11 @@
     |=  nb=notebook-summary:n
     &(=(our.bowl ship.flag.nb) =(u.notebook.publication name.flag.nb))
   ?.  have  ~
-  =/  all=(list note:n)
-    .^((list note:n) %gx /(scot %p our.bowl)/notes/(scot %da now.bowl)/v0/notes/(scot %p our.bowl)/[u.notebook.publication]/noun)
+  =/  target=path
+    %+  weld
+      /(scot %p our.bowl)/notes/(scot %da now.bowl)
+    /v0/notes/(scot %p our.bowl)/[u.notebook.publication]/noun
+  =/  all=(list note:n)  .^((list note:n) %gx target)
   %+  sort  all
   |=  [a=note:n b=note:n]
   ?:  =(created-at.a created-at.b)  (gth id.a id.b)

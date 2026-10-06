@@ -14,7 +14,7 @@
   ?>  =(['plain' ~] (split:c 'plain'))
   ?>  !(allowed:a ~zod ~nec ~2026.1.1 ~)
   ?>  (allowed:a ~zod ~zod ~2026.1.1 ~)
-  =/  members=members:d  (~(put by *members:d) ~nec [`~2026.1.2 %gift])
+  =/  =members:d  (~(put by *members:d) ~nec [`~2026.1.2 %gift])
   ?>  (allowed:a ~zod ~nec ~2026.1.1 members)
   ?>  !(allowed:a ~zod ~nec ~2026.1.2 members)
   =.  members  (~(put by members) ~nec [~ %gift])

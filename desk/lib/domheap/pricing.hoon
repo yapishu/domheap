@@ -6,27 +6,27 @@
   |=  period=period:d
   ^-  @ud
   ?-  period
-    %day    1
-    %week   7
+    %day  1
+    %week  7
     %month  30
-    %year   365
+    %year  365
   ==
 ++  amount
   |=  [prices=prices:d period=period:d]
   ^-  @t
   ?-  period
-    %day    day.prices
-    %week   week.prices
+    %day  day.prices
+    %week  week.prices
     %month  month.prices
-    %year   year.prices
+    %year  year.prices
   ==
 ++  period
   |=  text=@t
   ^-  period:d
   ?+  text  ~|('Choose day, week, month, or year.' !!)
-    %day    %day
-    %week   %week
+    %day  %day
+    %week  %week
     %month  %month
-    %year   %year
+    %year  %year
   ==
 --

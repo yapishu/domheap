@@ -23,7 +23,7 @@
   ?&  =((add 2 (mul 2 bytes)) (met 3 text))
       =('0x' (cut 3 [0 2] text))
       %+  levy  (slag 2 (trip text))
-      |=(c=@tD ?|(&((gte c '0') (lte c '9')) &((gte c 'a') (lte c 'f')) &((gte c 'A') (lte c 'F'))))
+      |=(c=@tD |(&((gte c '0') (lte c '9')) &((gte c 'a') (lte c 'f')) &((gte c 'A') (lte c 'F'))))
   ==
 ++  payer
   |=  p=payment:x

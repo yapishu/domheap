@@ -21,9 +21,19 @@
   ?.  =(who src.bowl)
     [(error:web rid 403 'Log in with this ship before subscribing.') state]
   ?~  plan.state
-    [(error:web rid 409 'Paid subscriptions are not configured. Contact the author for access.') state]
-  ?:  (lien ~(val by quotes.state) |=(q=quote:d &(=(who who.q) ?=(?(%verifying %settling) phase.q))))
-    [(error:web rid 409 'A payment for this ship is awaiting confirmation. Check its status before paying again.') state]
+    :_  state
+    %^  error:web
+      rid
+      409
+    'Paid subscriptions are not configured. Contact the author for access.'
+  ?:  %+  lien
+        ~(val by quotes.state)
+      |=(q=quote:d &(=(who who.q) ?=(?(%verifying %settling) phase.q)))
+    :_  state
+    %^  error:web
+      rid
+      409
+    'A payment for this ship is awaiting confirmation. Check its status before paying again.'
   ?.  enabled.u.plan.state
     [(error:web rid 409 'Paid subscriptions are not enabled. Contact the author for access.') state]
   =/  active
@@ -48,7 +58,7 @@
         ['expiresAt' (numb:enjs:format (unm:chrono:userlib expiry))]
         ['paymentRequired' (en-required:j (required q))]
     ==
-  ~
+    ~
   ==
 ++  required
   |=  q=quote:d
@@ -153,13 +163,23 @@
   ?>  =((lower:evm u.payer.result) (lower:evm (payer:evm u.payment.q)))
   =.  q  q(phase %settling)
   :_  state(quotes (~(put by quotes.state) id q))
-  ~[(card:t /payment/(scot %uv id)/settle facilitator.plan.q %settle u.payment.q requirements.plan.q)]
+  :_  ~
+  %:  card:t
+    /payment/(scot %uv id)/settle
+    facilitator.plan.q
+    %settle
+    u.payment.q
+    requirements.plan.q
+  ==
 ++  settled
   |=  [id=@uv q=quote:d result=settlement:x]
   ^-  (quip card:agent:gall state:d)
   ?.  (settled:p requirements.plan.q result)
     =.  state  state(quotes (~(put by quotes.state) id q(result `result)))
-    (failed id %settle 'Settlement is not confirmed. Ask the author to check the payment before trying again.')
+    %^  failed
+      id
+      %settle
+    'Settlement is not confirmed. Ask the author to check the payment before trying again.'
   ?>  ?=(^ payer.result)
   ?>  ?=(^ payment.q)
   ?>  =((lower:evm u.payer.result) (lower:evm (payer:evm u.payment.q)))
@@ -170,12 +190,15 @@
     ?~  m=(~(get by members.state) who.q)  ~
     expires.u.m
   =/  until=@da  (extend:a now.bowl duration.q prior)
-  =/  member=member:d
+  =/  =member:d
     ?~  m=(~(get by members.state) who.q)  [`until %paid]
     ?~  expires.u.m  u.m
     [`until %paid]
   =.  state
-    state(members (~(put by members.state) who.q member), redeemed (~(put in redeemed.state) transaction))
+    %_  state
+      members  (~(put by members.state) who.q member)
+      redeemed  (~(put in redeemed.state) transaction)
+    ==
   =/  rid  request.q
   =/  done=quote:d  q
   =.  done  done(phase %paid, result `result, payment ~, request ~)
@@ -235,5 +258,8 @@
   ^-  (quip card:agent:gall state:d)
   ?~  q=(~(get by quotes.state) id)  [~ state]
   ?.  ?=(?(%verifying %settling) phase.u.q)  [~ state]
-  (failed id ?:(=(%verifying phase.u.q) %verify %settle) 'Payment confirmation is taking longer than expected. Check its status before paying again.')
+  %^  failed
+    id
+    ?:(=(%verifying phase.u.q) %verify %settle)
+  'Payment confirmation is taking longer than expected. Check its status before paying again.'
 --

@@ -13,7 +13,13 @@
   =/  id=@uv  (shas %domheap-read eny.bowl)
   =/  deadline=@da  (add now.bowl ~s30)
   :_  state(pending (~(put by pending.state) id [host rid deadline]))
-  :~  [%pass /read/(scot %uv id) %agent [host %domheap] %watch (weld /v1/read/(scot %p our.bowl)/(scot %uv id) route)]
+  :~  :*  %pass
+          /read/(scot %uv id)
+          %agent
+          [host %domheap]
+          %watch
+          (weld /v1/read/(scot %p our.bowl)/(scot %uv id) route)
+      ==
       [%pass /read-timeout/(scot %uv id) %arvo %b %wait deadline]
   ==
 ++  serve
@@ -56,12 +62,12 @@
     [(number:x402-json (field:x402-json answer 'status')) (field:x402-json answer 'body')]
   ?-  -.parsed
     %|  (fail id 'The publication sent an invalid response.')
-    %&
-      =/  [status=@ud body=json]  p.parsed
-      ?>  &((gte status 200) (lte status 599))
-      :_  state(pending (~(del by pending.state) id))
-      %+  weld  (finish id r)
-      (response:web rid.r status body ~)
+      %&
+    =/  [status=@ud body=json]  p.parsed
+    ?>  &((gte status 200) (lte status 599))
+    :_  state(pending (~(del by pending.state) id))
+    %+  weld  (finish id r)
+    (response:web rid.r status body ~)
   ==
 ++  fail
   |=  [id=@uv message=@t]
